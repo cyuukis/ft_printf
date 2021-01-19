@@ -6,41 +6,78 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/16 18:07:53 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/19 22:30:43 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
 
-int	ft_printf(const char *format, ...)
+static int		my_parses(va_list arglist, const char **format)
 {
-	va_list		arglist;
-	m_str		len;
-	char		*pointer;
+	t_str str;
 
-	if (!(len.line = (char *)malloc(sizeof(char) * ft_strlen(format))))
-		return (-1);
-	va_start(arglist, format);
-	while (*format)
+	while (**format == '-' || **format == '0') // флаг
 	{
-		if ((pointer = ft_strchr(format, '%')))
-		{
-		}
+		if (**format == '-')
+			str.flags = -1;
 		else
 		{
-			len.line = ft_strdup(format);
-			printf("%s", len.line);
-			break ;
+			str.flags = 0;
+			printf("0");
 		}
+		format++;
 	}
+	///////////////////////////////////////////////// ширина
+	if (**format == '*')
+	{
+		str.width = va_arg(arglist, int);
+		format++;
+	}
+	if (**format >= '0' || **format <= '9')
+		str.width = ft_atoi(*format);
+	while (**format >= '0' || **format <= '9')
+		format++;
+	///////////////////////////////////////////////// точность
+	if (**format == '.')
+	{
+		str.fl_precision = 1;
+		format++;
+		if (**format == '*')
+		{
+			str.precision = va_arg(arglist, int);
+		}
+		if (**format >= '0' || **format <= '9')
+			str.precision = ft_atoi(*format);
+		while (**format >= '0' || **format <= '9')
+			format++;
+	}
+	///////////////////////////////////////////////// типы
 
 	return (0);
 }
 
-int main(void)
+int				ft_printf(const char *format, ...)
 {
-	printf("%d\n", 5);
-	ft_printf("%d", 5);
-	return (0);
+	va_list		arglist;
+	int			i;
+
+	i = 0;
+	if (format == NULL)
+		return (-1);
+	va_start(arglist, format);
+	while (*format)
+	{
+		if (*format == '%')
+		{
+			//printf("1");
+			(++format);
+			my_parses(arglist, &format);
+		}
+		else
+			i += write(1, format++, 1);
+		i++;
+	}
+	va_end(arglist);
+	return (i);
 }

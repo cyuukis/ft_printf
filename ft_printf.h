@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:41:53 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/16 17:54:58 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/19 22:30:48 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef	struct	my_str
+typedef	struct	s_str
 {
 	char		*line;
-}				m_str;
+	int			flags;
+	int			width;
+	int			fl_precision;
+	int			precision;
+}				t_str;
 
 int			ft_printf(const char *string, ...);
 size_t		ft_strlen(const char *str);
