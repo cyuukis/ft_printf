@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:41:53 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/19 22:30:48 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/20 00:10:43 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef	struct	s_str
 	char		*line;
 	int			flags;
 	int			width;
+	int			fl_width;
 	int			fl_precision;
 	int			precision;
 }				t_str;
