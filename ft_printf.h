@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:41:53 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/20 00:10:43 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/20 23:30:43 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ int			ft_printf(const char *string, ...);
 size_t		ft_strlen(const char *str);
 char		*ft_strchr(const char *str, int ch);
 char		*ft_strdup(const char *str);
+int			ft_atoi(const char *str);
 #endif
