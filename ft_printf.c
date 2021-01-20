@@ -13,23 +13,80 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-static int add_c(t_str *str, char c)
+static int		add_c(t_str *str, char c)
 {
-	t_str string;
 	int add;
+	char space;
 
-	string.line = NULL;
 	add = 0;
 	if (str->flags == -1 && str->width)
 	{
+		space = ' ';
 		write(1, &c, 1);
-
+		while (add < str->width)
+		{
+			write(1, &space, 1);
+			add++;
+		}
 	}
 	else if (str->flags == 0 && str->width)
 	{
-
+		space = '0';
+		while (add < str->width)
+		{
+			write(1, &space, 1);
+			add++;
+		}
+		write(1, &c, 1);
 	}
 	return (0);
+}
+
+static	int		add_s(t_str *str, char *c)
+{
+	int i;
+	int add;
+	int a;
+
+	add = 0;
+	i = ft_strlen(c);
+	if (str->flags == -1 && str->width)
+	{
+		space = ' ';
+		if (str->fl_precision == 1)
+		{
+			while ((a = str->precision) < 0)
+			{
+				write(1, c[i], 1);
+				a--;
+			}
+			a = str->width - str->precision;
+			if (a > 0)
+			{
+
+			}
+		}
+		while (c[i])
+		{
+			write(1, c[i], 1);
+			i++;
+		}
+		while (add < str->width)
+		{
+			write(1, &space, 1);
+			add++;
+		}
+	}
+	else if (str->flags == 0 && str->width)
+	{
+		space = '0';
+		while (add < str->width)
+		{
+			write(1, &space, 1);
+			add++;
+		}
+		write(1, &c, 1);
+	}
 }
 
 static int		my_parses(va_list arglist, const char **format)
@@ -63,9 +120,7 @@ static int		my_parses(va_list arglist, const char **format)
 		str.fl_precision = 1;
 		(*format)++;
 		if (**format == '*')
-		{
 			str.precision = va_arg(arglist, int);
-		}
 		if (**format >= '0' || **format <= '9')
 			str.precision = ft_atoi(*format);
 		while (**format >= '0' || **format <= '9')
