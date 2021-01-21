@@ -68,7 +68,7 @@ static	int		add_s(t_str *str, char *c)
 		}
 		str->precision = 0;
 	}
-	else
+	if (str->fl_precision == 0 && str->width)
 	{
 		i = str->width - str->precision;
 		if (i > 0)
@@ -86,6 +86,8 @@ static	int		add_s(t_str *str, char *c)
 		}
 		str->precision = 0;
 	}
+	else
+		write(1, c, ft_strlen(c));
 	// if (str->fl_precision == 1)// проверка точки
 	// {
 	// 	write(1, c, str->precision);
@@ -95,40 +97,52 @@ static	int		add_s(t_str *str, char *c)
 
 static	int		add_di(t_str *str, int di)
 {
+	char	res;
+	int		i;
 
+	i = 0
+		if (di < 0)
+			di = -1 * di;
+		res = (di % 10) + '0';
+		i += write(1, &res, 1);
+	return (i);
 }
 
-static	int		my_parses(va_list arglist, const char **format)
+static	void	my_parses_flag(t_str *str, const char **format)
 {
-	t_str str;
-
 	while (**format == '-' || **format == '0') // флаг
 	{
 		if (**format == '-')
-			str.flags = -1;
+			str->flags = -1;
 		else
 		{
-			str.flags = 0;
+			str->flags = 0;
 			//printf("0");
 		}
 		(*format)++;
 	}
-	///////////////////////////////////////////////// ширина
+}
+
+static	void	my_parses_width(t_str str, const char **format, va_list arglist)
+{
 	if (**format == '*')
 	{
-		str.width = va_arg(arglist, int);
+		str->width = va_arg(arglist, int);
 		(*format)++;
 	}
 	if (**format >= '0' && **format <= '9')
 	{
-		str.width = ft_atoi(*format);
+		str->width = ft_atoi(*format);
 		(*format)++;
 	}
 	else
-		str.width = 0;
+		str->width = 0;
 	while (**format >= '0' && **format <= '9')
 		(*format)++;
-	///////////////////////////////////////////////// точность
+}
+
+static void my_parses_precision(t_str str, const char **format, va_list arglist)
+{
 	if (**format == '.')
 	{
 		str.fl_precision = 1;
@@ -150,6 +164,63 @@ static	int		my_parses(va_list arglist, const char **format)
 	}
 	else
 		str.precision = 0;
+}
+
+static	int		my_parses(va_list arglist, const char **format)
+{
+	t_str str;
+
+	my_parses_flag(str, &format);
+	/*while (**format == '-' || **format == '0') // флаг
+	{
+		if (**format == '-')
+			str.flags = -1;
+		else
+		{
+			str.flags = 0;
+			//printf("0");
+		}
+		(*format)++;
+	}*/
+	///////////////////////////////////////////////// ширина
+	my_parses_width(str, &format, arglist);
+	/*if (**format == '*')
+	{
+		str.width = va_arg(arglist, int);
+		(*format)++;
+	}
+	if (**format >= '0' && **format <= '9')
+	{
+		str.width = ft_atoi(*format);
+		(*format)++;
+	}
+	else
+		str.width = 0;
+	while (**format >= '0' && **format <= '9')
+		(*format)++;*/
+	///////////////////////////////////////////////// точность
+	my_parses_precision(str, &format, arglist);
+	/*if (**format == '.')
+	{
+		str.fl_precision = 1;
+		(*format)++;
+		if (**format == '*')
+		{
+			(*format)++;
+			str.precision = va_arg(arglist, int);
+		}
+		if (**format >= '0' && **format <= '9')
+		{
+			str.precision = ft_atoi(*format);
+			(*format)++;
+		}
+		else
+			str.precision = 0;
+		while (**format >= '0' && **format <= '9')
+			(*format)++;
+	}
+	else
+		str.precision = 0;*/
 	///////////////////////////////////////////////// типы
 	if (**format == 'c')
 		return (add_c(&str, va_arg(arglist, int)));
@@ -179,10 +250,8 @@ int				ft_printf(const char *format, ...)
 	va_start(arglist, format);
 	while (*format)
 	{
-		//printf("1");
 		if (*format == '%')
 		{
-			//printf("1");
 			++format;
 			my_parses(arglist, &format);
 			format++;
