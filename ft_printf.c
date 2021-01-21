@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/21 22:13:23 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/21 23:16:46 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,30 @@ static	int		add_di(t_str *str, int di)
 	a = ft_strlen(res);
 	if (str->width == 0 && str->precision == 0)
 		i += write(1, res, ft_strlen(res));
-	else if (str->width && (str->flags == 1 || str->flags == 0))
+	else if ((str->flags == 1 || str->flags == 0))
 	{
 		if (str->flags == 1)
 		{
-			a = str->width - a;
-			while (a > 0)
+			if (str->precision)
 			{
-				write(1, &space, 1);
-				a--;
+				a = str->precision - a;
+				while (a > 0)
+				{
+					write(1, "0", 1);
+					a--;
+				}
+				write(1, res, ft_strlen(res));
 			}
-			write(1, res, ft_strlen(res));
+			if (str->width)
+			{
+				a = str->width - a;
+				while (a > 0)
+				{
+					write(1, " ", 1);
+					a--;
+				}
+				write(1, res, ft_strlen(res));
+			}
 		}
 		if (str->flags == 0 && str->fl_precision == 1)
 		{
@@ -145,11 +158,11 @@ static	int		add_di(t_str *str, int di)
 						write(1, &space, 1);
 						w--;
 					}
-					a = str->width - a;
-					while (a <= str->width)
+					a = str->precision - a;
+					while (a != 0)
 					{
 						write(1, "0", 1);
-						a++;
+						a--;
 					}
 					w++;
 					write(1, res, ft_strlen(res));
@@ -217,7 +230,7 @@ static	int		add_di(t_str *str, int di)
 				write(1, res, 1);
 				res++;
 			}
-			a = str->width - a;
+			a = str->precision - a;
 			while (a > 0)
 			{
 				space = '0';
@@ -225,6 +238,12 @@ static	int		add_di(t_str *str, int di)
 				a--;
 			}
 			write(1, res, ft_strlen(res));
+			w = str->width - str->precision;
+			while(w != 0)
+			{
+				write(1, " ", 1);
+				w--;
+			}
 		}
 		else if (str->fl_precision == 1 && !str->precision)
 		{
