@@ -2,6 +2,23 @@
 #include <stdio.h>
 int main(void)
 {
+	printf("%5c", '');
+	ft_printf("%5c", '');
+	printf("|%5c|\n", ' ');
+	ft_printf("|%5c|\n", ' ');
+	printf("|%.1c|\n", 'c');
+	ft_printf("|%.1c|\n", 'c');
+	printf("|%-3.5c|\n", 'c');
+	ft_printf("|%-3.5c|\n", 'c');
+	printf("|%-5.3c|\n", 'c');
+	ft_printf("|%-5.3c|\n", 'c');
+	// ft_printf("|%-c|\n", 'c');
+	// ft_printf("|%-5c|\n", 'c');
+	// ft_printf("|%.1c|\n", 'c');
+	// ft_printf("|%.c|\n", 'c');
+	// ft_printf("|%-3.5c|\n", 'c');
+	// ft_printf("|%-5.3c|\n", 'c');
+	// ft_printf("|%03.5c|\n", 'c');
 	// printf("|%-5c|\n", 'c');
 	// ft_printf("|%-5c|\n", 'c');
 	//  printf("|%-6s|\n", "Hello");//
@@ -38,11 +55,12 @@ int main(void)
 	// ft_printf("|%-6.4d|\n", 1);
 	// printf("|%0d|\n", 0);
 	// ft_printf("|%0d|\n", 0);
-	printf("%7d\n", 33);
-	ft_printf("%7d\n", 33);
-	printf("%7d\n", -14);
-	ft_printf("%7d\n", -14);
-	printf("%3d\n", 0);
-	ft_printf("%3d\n", 0);
+
+	// ft_printf("%7d\n", 33);
+	// printf("%7d\n", -14);
+	// ft_printf("%7d\n", -14);
+	// printf("%3d\n", 0);
+	//  printf("|%1c|\n", '!');
+	//  ft_printf("|%1c|\n", '!');
 	return (0);
 }

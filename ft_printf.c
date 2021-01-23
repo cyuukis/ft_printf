@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/21 23:16:46 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/23 19:32:22 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,33 @@ static	int		add_c(t_str *str, char c)
 	char space;
 
 	add = 1;
-	if (str->flags == -1 && str->width)
+	if ((str->flags == -1 || str->flags == 1) && str->width >= 0)
 	{
 		space = ' ';
-		write(1, &c, 1);
-		while (add < str->width)
+		if (str->flags == -1)
 		{
-			write(1, &space, 1);
-			add++;
+			write(1, &c, 1);
+			while (add < str->width)
+			{
+				write(1, &space, 1);
+				add++;
+			}
+			return (add);
+		}
+		else if (str->flags == 1)
+		{
+			while (add < str->width)
+			{
+				write(1, &space, 1);
+				add++;
+			}
+			write(1, &c, 1);
+			return (add);
 		}
 	}
-	else if (str->flags == 0 && str->width)
+	if (str->flags == 0 && str->width >= 0)
 	{
-		space = '0';
+		space = ' ';
 		while (add < str->width)
 		{
 			write(1, &space, 1);
@@ -41,7 +55,7 @@ static	int		add_c(t_str *str, char c)
 	}
 	else
 		write(1, &c, 1);
-	return (0);
+	return (add);
 }
 
 static	int		add_s(t_str *str, char *c)
@@ -70,16 +84,6 @@ static	int		add_s(t_str *str, char *c)
 				}
 			}
 		}
-		/*i = str->width - str->precision;
-		if (i > 0)
-		{
-			space = ' ';
-			while (i > 0)
-			{
-				write(1, &space, 1);
-				i--;
-			}
-		}*/
 		str->precision = 0;
 	}
 	else
@@ -239,7 +243,7 @@ static	int		add_di(t_str *str, int di)
 			}
 			write(1, res, ft_strlen(res));
 			w = str->width - str->precision;
-			while(w != 0)
+			while (w != 0)
 			{
 				write(1, " ", 1);
 				w--;
