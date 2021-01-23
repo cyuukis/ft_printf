@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:45:50 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/21 19:03:22 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/23 23:07:11 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,4 +167,46 @@ char			*ft_itoa(int n)
 	l = ft_equals(n) + ft_check(n);
 	str[l - 1] = '\0';
 	return (str);
+}
+
+char		*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char			*str;
+	unsigned int	i;
+	size_t			j;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	j = ft_strlen(s);
+	if (start > j)
+		return (ft_strdup(""));
+	str = malloc(sizeof(char) * ((len + 1)));
+	if (str == NULL)
+		return (NULL);
+	while (i < len)
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+size_t		ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t i;
+
+	i = 0;
+	if (!dst || !src)
+		return (0);
+	if (size == 0)
+		return (ft_strlen(src));
+	while (src[i] && i < (size - 1))
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }
