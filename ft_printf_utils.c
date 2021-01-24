@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:45:50 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/23 23:07:11 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/24 18:48:21 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,4 +209,20 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size)
 	}
 	dst[i] = '\0';
 	return (ft_strlen(src));
+}
+
+void		*ft_memset(void *dest, int c, size_t n)
+{
+	int		i;
+	char	*src;
+
+	src = dest;
+	i = 0;
+	while (n)
+	{
+		src[i] = c;
+		i++;
+		n--;
+	}
+	return (dest);
 }

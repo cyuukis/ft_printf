@@ -8,9 +8,9 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "a.out",
+			"program": "${workspaceFolder}/a.out",
 			"args": [],
-			"cwd": "/Users/cyuuki/Desktop/main.c"
+			"cwd": "${workspaceFolder}"
 		}
 	]
 }
