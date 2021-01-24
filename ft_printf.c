@@ -13,69 +13,111 @@
 #include "ft_printf.h"
 #include <stdio.h>
 
-static	int		add_c(t_str *str, char c)
+static int add_width_c(char c, int width)
 {
 	int add;
-	char space;
 
 	add = 1;
+	while (add < width)
+	{
+		write(1, &c, 1);
+		add++;
+	}
+	return (add);
+}
+
+static int add_width_s(char c, int width)
+{
+	int add;
+
+	add = 0;
+	while (add < width)
+	{
+		write(1, &c, 1);
+		add++;
+	}
+	return (add);
+}
+
+static	int		add_c(t_str *str, char c)
+{
+	int i;
+	int add;
+
+	add = 0;
 	if ((str->flags == -1 || str->flags == 1) && str->width >= 0)
 	{
-		space = ' ';
 		if (str->flags == -1)
 		{
-			write(1, &c, 1);
-			while (add < str->width)
+			add += write(1, &c, 1);
+			i = add_width_c(' ', str->width);
+			/*while (add < str->width)
 			{
 				write(1, &space, 1);
 				add++;
-			}
-			return (add);
+			}*/
+			return (i + add);
 		}
 		else if (str->flags == 1)
 		{
-			while (add < str->width)
+			i = add_width_c(' ', str->width);
+			/*while (add < str->width)
 			{
 				write(1, &space, 1);
 				add++;
-			}
-			write(1, &c, 1);
-			return (add);
+			}*/
+			add += write(1, &c, 1);
+			return (add + i);
 		}
 	}
 	if (str->flags == 0 && str->width >= 0)
 	{
-		space = ' ';
-		while (add < str->width)
+		i = add_width_c(' ', str->width);
+		/*while (add < str->width)
 		{
 			write(1, &space, 1);
 			add++;
-		}
-		write(1, &c, 1);
+		}*/
+		add +=write(1, &c, 1);
+		return (add + i);
 	}
 	else
-		write(1, &c, 1);
-	return (add);
+		i += write(1, &c, 1);
+	return (i);
 }
 
 static	char	*add_s_str(t_str *str, char *c)
 {
 	char *s;
-
-	if (str->precision > -1 && c)
-		c = ft_substr(c, 0, str->precision);
+	if (str->fl_precision == 1)
+	{
+		if (str->precision > -1 && c)
+		{
+			//printf("|1%s|", c);
+			c = ft_substr(c, 0, str->precision);
+			//printf("|2%s|", c);
+		}
+		str->fl_precision = 0;
+		str->precision = 0;
+	}
 	else if (str->precision == -1 && c)
+	{
+		//printf("%s", c);
 		c = ft_strdup(c);
+	}
 	else if (str->precision == -1 && !c)
 	{
+		//printf("%s", c);
 		c = ft_strdup("(null)");
 	}
-	else if (str->precision > -1 && c)
+	else if (str->precision > -1 && !c)
 	{
+		//printf("%s", c);
 		s = ft_strdup("(null)");
-		ft_strlcpy(s, c, str->precision + 1);
-		return (s);
+		ft_strlcpy(c, s, str->precision + 1);
+		return (c);
 	}
+	//printf("\n%s", c);
 	return (c);
 }
 
@@ -83,14 +125,25 @@ static	int		add_s(t_str *str, char *c)
 {
 	int		i;
 	int		add;
-	char	space;
+	char	*string;
 
-	c = add_s_str(str, c);
-	i = ft_strlen(c);
+	string = add_s_str(str, c);
+	i = ft_strlen(string);
 	add = 0;
-
-	
-	/*if (str->flags == -1 || str->width >= 1)
+	if (str->flags == -1)
+	{
+		add += write(1, string, ft_strlen(string));
+		add = add + add_width_s(' ', str->width - i);
+	}
+	else if (str->flags == 1)
+	{
+		add = add + add_width_s(' ', str->width - i);
+		add += write(1, string, ft_strlen(string));
+	}
+	free(string);
+	return (add);
+	/*
+	if (str->flags == -1 || str->width >= 1)
 	{
 		if (str->flags == -1 && str->width >= 1)
 		{
@@ -143,7 +196,7 @@ static	int		add_s(t_str *str, char *c)
 			write(1, c, str->precision);
 	}
 	else
-		write(1, c, ft_strlen(c));
+		write(1, c, ft_strlen(c));*/
 	// if (str->flags == -1 && str->width)//принт с -
 	// {
 	// 	if (str->fl_precision == 1 && str->precision > 0)// проверка точки
@@ -184,7 +237,6 @@ static	int		add_s(t_str *str, char *c)
 	// 		write(1, c, str->precision);
 	// 	str->precision = 0;
 	// }
-	return (0);*/
 }
 
 static	int		add_di(t_str *str, int di)

@@ -56,17 +56,27 @@ int main(void)
 	// printf("|%0d|\n", 0);
 	// ft_printf("|%0d|\n", 0);
 
-	// ft_printf("%7d\n", 33);
-	// printf("%7d\n", -14);
-	// ft_printf("%7d\n", -14);
-	// printf("%3d\n", 0);
-	//  printf("|%1c|\n", '!');
-	//  ft_printf("|%1c|\n", '!');
+	 /*ft_printf("%7d\n", 33);
+	 printf("%7d\n", -14);
+	 ft_printf("%7d\n", -14);
+	 printf("%3d\n", 0);*/
+	  printf("|%1c|\n", '!');
+	  ft_printf("|%1c|\n", '!');
 	printf("|%.7s|\n", "hello");
 	ft_printf("|%.7s|\n", "hello");
-	printf("|%.5s%7s|\n", "yo", "boi");
-	ft_printf("|%.5s%7s|\n", "yo", "boi");
-	printf("%s\n", NULL);
-	ft_printf("%s\n", NULL);
+	//printf("|1p %.5s%7s|\n", "yo", "boi");
+	//ft_printf("|1f %.5s%7s|\n", "yo", "boi");
+	//printf("|0p %s|\n", NULL);
+	//ft_printf("|0f %s|\n", NULL);
+	printf("|1p %-32s|\n", "Hello");
+	ft_printf("|1f %-32s|\n", "Hello");
+	printf("|2p %-32.5s|\n", "Hello");
+	ft_printf("|2f %-32.5s|\n", "Hello");
+	printf("|3p %-32.7s|\n", "Hello");
+	ft_printf("|3f %-32.7s|\n", "Hello");
+	printf("|4p %-5.3s|\n", "Hello");
+	ft_printf("|4f %-5.3s|\n", "Hello");
+	printf("|5p %.3s%7s|\n", "Hello", "Y");
+	ft_printf("|5f %.3s%7s|\n", "Hello", "Y");
 	return (0);
 }
