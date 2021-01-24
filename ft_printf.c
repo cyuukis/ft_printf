@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/24 19:37:49 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/24 20:29:07 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static	int		add_c(t_str *str, char c)
 			return (add + i);
 		}
 	}
-	if (str->flags == 0 && str->width >= 0)
+	if (str->flags == 2 && str->width >= 0)
 	{
 		i = add_width_c(' ', str->width);
 		/*while (add < str->width)
@@ -128,7 +128,13 @@ static	int		add_s(t_str *str, char *c)
 	}
 	else if (str->flags == 1)
 	{
+
 		add += add_width_s(' ', str->width - i);
+		add += write(1, string, ft_strlen(string));
+	}
+	else if (str->flags == 2)
+	{
+		add += add_width_s('0', str->width - i);
 		add += write(1, string, ft_strlen(string));
 	}
 	else
@@ -319,10 +325,10 @@ static	void	my_parses_flag(t_str *str, const char **format)
 		if (**format == '-')
 			str->flags = -1;
 		else
-			str->flags = 0;
+			str->flags = 2;
 		(*format)++;
 	}
-	if (str->flags != -1)
+	if (str->flags != -1 && str->flags != 2)
 		str->flags = 1;
 }
 

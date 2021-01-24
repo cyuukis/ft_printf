@@ -79,7 +79,9 @@ int main(void)
 	// printf("|5p %.3s%7s|\n", "Hello", "Y");
 	// ft_printf("|5f %.3s%7s|\n", "Hello", "Y");
 	//printf("%32s|\n", "abc");
-	printf("hello, %s.|\n", NULL);
-	ft_printf("hello, %s.|", NULL);
+	printf("|%09s|\n", "hi low");
+	ft_printf("|%09s|", "hi low");
+	// ft_printf("hello, %s.|\n", "hello");
+	// ft_printf("hello, %s.|\n", NULL);
 	return (0);
 }
