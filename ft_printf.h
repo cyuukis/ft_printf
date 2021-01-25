@@ -16,6 +16,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 typedef	struct	s_str
 {
@@ -36,4 +37,7 @@ char		*ft_itoa(int n);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		*ft_memset(void *dest, int c, size_t n);
+int			add_c(t_str *str, char c);
+int			add_s(t_str *str, char *c);
+int			add_width_c(char c, int width);
 #endif
