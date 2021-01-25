@@ -2,7 +2,7 @@ NAME = libftprintf.a
 CC = gcc
 FLAGS = -Wall -Werror -Wextra -c
 HEADER = ft_printf.h
-FUNCS = ft_printf.c ft_printf_utils.c
+FUNCS = ft_printf.c ft_printf_utils.c add_s.c add_c.c
 OBJS = $(FUNCS:.c=.o)
 
 all: $(NAME)

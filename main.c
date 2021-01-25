@@ -53,8 +53,8 @@ int main(void)
 	 ft_printf("|%06d|\n", 0);
 	 printf	 ("|%-6.4d|\n", 1);
 	 ft_printf("|%-6.4d|\n", 1);*/
-	 printf("p |%5.6d|\n", 10);
-	 ft_printf("f |%5.6d|\n", 10);
+	//  printf("p |%5.6d|\n", 10);
+	//  ft_printf("f |%5.6d|\n", 10);
 
 	 /*ft_printf("%7d\n", 33);
 	 printf("%7d\n", -14);
@@ -109,5 +109,8 @@ int main(void)
 	ft_printf("12f |%-15.15x%-3x|\n", 25, 16);
 	ft_printf("f |%-3x%x|\n", 16,25);
 	printf("p |%-3x%x|\n", 16,25);*/
+	//ft_printf("%5.9999999");
+	//printf("%");
+	//printf("%-10.8s", NULL);
 	return (0);
 }

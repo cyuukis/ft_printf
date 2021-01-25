@@ -21,24 +21,24 @@ int			add_c(t_str *str, char c)
 
 	add = 0;
 	i = 0;
-	if ((str->flags == -1 || str->flags == 1) && str->width >= 0)
+	if ((str->flags_s == -1 || str->flags_s == 1) && str->width >= 0)
 	{
-		if (str->flags == -1)
+		if (str->flags_s == -1)
 		{
 			add += write(1, &c, 1);
 			i = add_width_c(' ', str->width);
 			return (i + add);
 		}
-		else if (str->flags == 1)
+		else if (str->flags_s == 1)
 		{
 			i = add_width_c(' ', str->width);
 			add += write(1, &c, 1);
 			return (add + i);
 		}
 	}
-	if (str->flags == 2 && str->width >= 0)
+	if (str->flags_z == 2 && str->width >= 0)
 	{
-		i = add_width_c(' ', str->width);
+		i = add_width_c('0', str->width);
 		add += write(1, &c, 1);
 		return (add + i);
 	}

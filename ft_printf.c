@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/24 20:29:07 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/26 00:22:22 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	int		add_di_space(t_str *str, int a, char *res, int minus, int di)
 			add += add_width_di('0', a);
 		add += write(1, res, ft_strlen(res));
 	}
-	else if (str->flags == -1)
+	else if (str->flags_s == -1)
 	{
 		add += write(1, res, ft_strlen(res));
 		a = str->width - a;
@@ -63,17 +63,18 @@ static	int		add_di(t_str *str, int di)
 	int		minus;
 	int		add;
 
+	add = 0;
 	res = ft_itoa(di);
 	a = ft_strlen(res);
 	if (di < 0)
 		minus = 1;
 	else
 		minus = 0;
-	if (str->precision > -1 && str->flags == -1)
+	if (str->precision > -1 && str->flags_s == -1)
 	{
 		
 	}
-	else if (str->fl_precision == 1 || str->flags == -1)
+	else if (str->fl_precision == 1 || str->flags_s == -1)
 		add_di_space(str, a, res, minus, di);
 	else if (str->width > 0)
 	{
@@ -279,7 +280,7 @@ static	int		add_x_hex(t_str *str, unsigned int num, const char **format)
 
 	add = 0;
 	if (num >= 16)
-		add_x_hex(str, num / 16, format);
+	add += add_x_hex(str, num / 16, format);
 	a = num % 16;
 	add += add_x_registr(a, format);
 	return (add);
@@ -298,39 +299,6 @@ static	int		add_width_x(char c, int width)
 	return (add);
 }
 
-static	int		add_x_precision(t_str *str, int string, unsigned int num, const char **format)
-{
-	int	a;
-	int	add;
-	
-	add = 0;
-	a = 0;
-	if (str->precision > -1)
-	{
-		if (str->precision > string)
-			a = str->precision - string;
-		else
-			str->precision = 0;
-		if (str->width > (a + string))
-			str->width = str->width - string - a;
-		else
-			str->width = 0;
-		if (str->flags == 1 || str->flags == 2)
-		{
-			add += add_width_x(' ', str->width);
-			add += add_width_x('0', a);
-			add += add_x_hex(str, num, format);
-		}
-		else if (str->flags == -1)
-		{
-			add += add_width_x('0', a);
-			add += add_x_hex(str, num, format);
-			add += add_width_x(' ', str->width);
-		}
-	}
-	return (add);
-}
-
 static	int		add_x_str(unsigned int num)
 {
 	int string;
@@ -345,18 +313,90 @@ static	int		add_x_str(unsigned int num)
 	return (string);
 }
 
-static	int		add_x(t_str *str, unsigned int num, const char **format)
+static	int		add_x_precision(t_str *str, unsigned int num, const char **format)
 {
+	int	a;
 	int	add;
 	int string;
-	int a;
+
+	string = 0;
+	add = 0;
+	a = 0;
+	string += add_x_str(num);
+	if (num == 0 && str->fl_precision == 1 && str->precision == 0)
+	{
+		add += add_width_x(' ', str->width);
+	}
+	else if (str->precision > -1)
+	{
+		if (str->precision > string)
+			a = str->precision - string;
+		else
+			str->precision = 0;
+		if (str->width > (a + string))
+			str->width = str->width - string - a;
+		else
+			str->width = 0;
+		if (str->flags_s == 1 || str->flags_z == 2)
+		{
+			if (str->flags_z == 2 && str->flags_s == -1)
+			{
+				add += add_width_x('0', a);
+				//add += add_x_hex(str, num, format);
+				(string != 0 ? add += add_x_hex(str, num, format) : 0);
+				add += add_width_x(' ', str->width);
+				return (add);
+			}
+			else
+			{
+				add += add_width_x(' ', str->width);
+				add += add_width_x('0', a);
+				//add += add_x_hex(str, num, format);
+				(string != 0 ? add += add_x_hex(str, num, format) : 0);
+				return (add);
+			}
+		}
+		else if (str->flags_s == -1)
+		{
+			add += add_width_x('0', a);
+			//add += add_x_hex(str, num, format);
+			(string != 0 ? add += add_x_hex(str, num, format) : 0);
+			add += add_width_x(' ', str->width);
+		}
+	}
+	return (add);
+}
+
+static	int		add_x_null(t_str *str, unsigned int num, const char **format)
+{
+	int add;
+	int string;
 
 	string = 0;
 	add = 0;
 	string += add_x_str(num);
-	add += add_x_precision(str, string, num, format);
-	//add += add_x_hex(str, num, format);
-	printf("|%d|\n", add);
+	if (str->width > string)
+		str->width = str->width - string;
+	else
+		str->width = 0;
+	add += add_width_x('0', str->width);
+	add += add_x_hex(str, num, format);
+	return (add);
+}
+
+static	int		add_x(t_str *str, unsigned int num, const char **format)
+{
+	int	add;
+	int string;
+
+	string = 0;
+	add = 0;
+	if (num == 0 && str->precision == 0)
+		string = 0;
+	if (str->flags_z == 2 && str->fl_precision == 0)
+		add += add_x_null(str, num, format);
+	else
+		add += add_x_precision(str, num, format);
 	return (add);
 }
 
@@ -364,14 +404,14 @@ static	void	my_parses_flag(t_str *str, const char **format)
 {
 	while (**format == '-' || **format == '0')
 	{
-		if (**format == '-')
-			str->flags = -1;
+		if (**format == '0')
+			str->flags_z = 2;
 		else
-			str->flags = 2;
+			str->flags_s = -1;
 		(*format)++;
 	}
-	if (str->flags != -1 && str->flags != 2)
-		str->flags = 1;
+	if (str->flags_s != -1 && str->flags_z != 2)
+		str->flags_s = 1;
 }
 
 static	void	my_parses_width(t_str *str, const char **format, va_list arglist)
@@ -414,13 +454,18 @@ static	void	my_parses_precision(t_str *str, const char **format, va_list arglist
 			(*format)++;
 	}
 	else
+	{
+		str->fl_precision = 0;
 		str->precision = 0;
+	}
 }
 
 static	int		my_parses(va_list arglist, const char **format)
 {
 	t_str str;
 
+	if (**format == '\0')
+		return (0);
 	ft_memset(&str, 0, sizeof(str));
 	///////////////////////////////////////////////// флаг
 	my_parses_flag(&str, format);
@@ -462,11 +507,14 @@ int				ft_printf(const char *format, ...)
 		{
 			++format;
 			add += my_parses(arglist, &format);
-			format++;
+			if (*format)
+				format++;
 		}
 		else
 			i = i + write(1, format++, 1);
 	}
 	va_end(arglist);
+	// printf("\n%d\n", i);
+	// printf("%d\n", add);
 	return (i + add);
 }
