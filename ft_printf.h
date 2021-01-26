@@ -41,4 +41,10 @@ void		*ft_memset(void *dest, int c, size_t n);
 int			add_c(t_str *str, char c);
 int			add_s(t_str *str, char *c);
 int			add_width_c(char c, int width);
+int			add_x_precision(t_str *str, unsigned int num, const char **format);
+int			add_x(t_str *str, unsigned int num, const char **format);
+int			add_x_registr(long a, const char **format);
+int			add_width_x(char c, int width);
+int			add_x_str(unsigned int num);
+int			add_x_hex(t_str *str, unsigned int num, const char **format);
 #endif
