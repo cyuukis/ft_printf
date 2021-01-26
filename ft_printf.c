@@ -25,30 +25,38 @@ static	int		add_width_di(char c, int width)
 	return (add);
 }
 
-static	int		add_di_space(t_str *str, int a, char *res, int minus, int di)
+static	int		add_di_space(t_str *str, int string, char *res, int minus)
 {
 	int add;
 
 	add = 0;
 	if (str->fl_precision == 1)
 	{
-		if (str->width > a)
-			a = str->width - a - minus;
-		if (di < 0)
+		if (str->width > string)
+			string = str->width - string - minus;
+		if (minus == 1)
 		{
 			write(1, "-", 1);
 			res++;
+			add++;
 		}
-		if (a > 0)
-			add += add_width_di('0', a);
+		if (string > 0)
+			add += add_width_di('0', string);
 		add += write(1, res, ft_strlen(res));
 	}
 	else if (str->flags_s == -1)
 	{
 		add += write(1, res, ft_strlen(res));
-		a = str->width - a;
-		if (a > 0)
-			add += add_width_di(' ', a);
+		string = str->width - string;
+		if (string > 0)
+			add += add_width_di(' ', string);
+	}
+	else if (str->flags_z == 2 && str->fl_precision != 1)
+	{
+		string = str->width - string;
+		if (string > 0)
+			add += add_width_di('0', string);
+		add += write(1, res, ft_strlen(res));
 	}
 	return (add);
 }
@@ -59,188 +67,127 @@ static	int		add_di(t_str *str, int di)
 	int		a;
 	int		minus;
 	int		add;
+	int		string;
 
 	add = 0;
 	res = ft_itoa(di);
-	a = ft_strlen(res);
+	a = 0;
+	string = ft_strlen(res);
 	if (di < 0)
 		minus = 1;
 	else
 		minus = 0;
-	if (str->precision > -1 && str->flags_s == -1)
+	if (str->precision > -1 )
 	{
-		
+		/*printf("\n%d\n", str->precision);
+		printf("%d\n", str->width);*/
+		if (str->precision > string)
+			a = str->precision - string;
+		else if (str->precision == string)
+			a = 1;
+		else
+			str->precision = 0;
+		if (str->width > a + string)
+			str->width = str->width - string - a;
+		else
+			str->width = 0;
+		/*printf("\n%d\n", str->precision);
+		printf("%d\n", str->width);
+		printf("%d\n",a);
+		printf("%d\n", string);*/
+		if (str->flags_z == 2 || str->flags_s == 1)
+		{
+			if (str->flags_z == 2 && str->fl_precision != 1)
+			{
+				if (minus == 1)
+				{
+					add += write(1, "-", 1);
+					res++;
+				}
+				add += add_width_di('0', str->width);
+				add += write(1, res, ft_strlen(res));
+				add += add_width_di(' ', str->precision);
+			}
+			else if (str->flags_z == 2 && str->fl_precision == 1)
+			{
+				add += add_width_di(' ', str->width);
+				if (minus == 1)
+				{
+					add += write(1, "-", 1);
+					res++;
+				}
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+				
+			}
+			else
+			{
+				add += add_width_di(' ', str->width);
+				if (minus == 1)
+				{
+					add += write(1, "-", 1);
+					res++;
+				}
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+			}
+		}
+		else if (str->flags_s == -1)
+		{
+			if (minus == 1)
+			{
+				add += write(1, "-", 1);
+				res++;
+			}
+			add += add_width_di('0', a);
+			add += write(1, res, ft_strlen(res));
+			add += add_width_di(' ', str->width);
+		}
 	}
-	else if (str->fl_precision == 1 || str->flags_s == -1)
-		add_di_space(str, a, res, minus, di);
+	else if (str->fl_precision == 1 || str->flags_s == -1 || str->flags_z == 2)
+		add += add_di_space(str, string, res, minus);
 	else if (str->width > 0)
 	{
-		a = str->width - a;
-		if (a > 0)
-			add += add_width_di(' ', a);
+		string = str->width - string;
+		if (minus < 0)
+		{
+			add += write(1, "-", 1);
+			res++;
+		}
+		add += write(1, res, ft_strlen(res));
+		if (string > 0)
+			add += add_width_di(' ', string);
+	}
+	/*else if (di < 0)
+	{
 		add += write(1, res, ft_strlen(res));
 	}
+	else
+		add += write(1, res, ft_strlen(res));*/
 	return (add);
-	/*if (str->width == 0 && str->precision == 0)
-		i += write(1, res, ft_strlen(res));
-	else if ((str->flags == 1 || str->flags == 0))
+}
+
+static	int		add_u(t_str *str, unsigned int num)
+{
+	int add;
+	int string;
+	char *res;
+
+	add = 0;
+	res = ft_itoa(num);
+	string += ft_strlen(res);
+	if (str->precision > -1)
 	{
-		if (str->flags == 1)
-		{
-			if (str->precision)
-			{
-				a = str->precision - a;
-				while (a > 0)
-				{
-					write(1, "0", 1);
-					a--;
-				}
-				write(1, res, ft_strlen(res));
-			}
-			if (str->width)
-			{
-				a = str->width - a;
-				while (a > 0)
-				{
-					write(1, " ", 1);
-					a--;
-				}
-				write(1, res, ft_strlen(res));
-			}
-		}
-		if (str->flags == 0 && str->fl_precision == 1)
-		{
-			space = ' ';
-			if (str->precision)
-			{
-				w = str->width - str->precision;
-				if (w > 0)
-				{
-					while (w > 0)
-					{
-						write(1, &space, 1);
-						w--;
-					}
-					a = str->precision - a;
-					while (a != 0)
-					{
-						write(1, "0", 1);
-						a--;
-					}
-					w++;
-					write(1, res, ft_strlen(res));
-				}
-				if (w <= 0)
-				{
-					if (di > 0)
-					{
-						w = str->precision - a;
-						while (w != 0)
-						{
-							write(1, "0", 1);
-							w--;
-						}
-						write(1, res, ft_strlen(res));
-					}
-					else
-					{
-						a--;
-						write(1, res, 1);
-						res++;
-						w = str->precision - a;
-						while (w != 0)
-						{
-							write(1, "0", 1);
-							w--;
-						}
-						write(1, res, ft_strlen(res));
-					}
-				}
-			}
-			else if (!str->precision)
-			{
-				while (a > 0)
-				{
-					write(1, &space, 1);
-					a--;
-				}
-				write(1, res, ft_strlen(res));
-			}
-		}
-		else if (str->flags == 0 && str->fl_precision != 1)
-		{
-			a = str->width - a;
-			space = '0';
-			if (di < 0)
-			{
-				write(1, res, 1);
-				res++;
-			}
-			while (a > 0)
-			{
-				write(1, &space, 1);
-				a--;
-			}
-			write(1, res, ft_strlen(res));
-		}
+		add += 
 	}
-	else if (str->width && str->flags == -1)
+	else if (str->fl_precision == 1 || str->flags_s == -1 || str->flags_z == 2)
 	{
-		if (str->fl_precision == 1 && str->precision)
-		{
-			if (di < 0)
-			{
-				write(1, res, 1);
-				res++;
-			}
-			a = str->precision - a;
-			while (a > 0)
-			{
-				space = '0';
-				write(1, &space, 1);
-				a--;
-			}
-			write(1, res, ft_strlen(res));
-			w = str->width - str->precision;
-			while (w != 0)
-			{
-				write(1, " ", 1);
-				w--;
-			}
-		}
-		else if (str->fl_precision == 1 && !str->precision)
-		{
-			if (di < 0)
-			{
-				write(1, res, 1);
-				res++;
-			}
-			write(1, res, ft_strlen(res));
-			a = str->width - a;
-			while (a > 0)
-			{
-				space = ' ';
-				write(1, &space, 1);
-				a--;
-			}
-		}
-		else if (str->fl_precision != 1)
-		{
-			write(1, res, ft_strlen(res));
-			if (di < 0)
-			{
-				write(1, res, 1);
-				res++;
-			}
-			a = str->width - a;
-			while (a > 0)
-			{
-				space = ' ';
-				write(1, &space, 1);
-				a--;
-			}
-		}
-	}*/
+
+	}
+	else if (str->width > 0)
+	{
+
+	}
 }
 
 static	void	my_parses_flag(t_str *str, const char **format)
@@ -326,9 +273,9 @@ static	int		my_parses(va_list arglist, const char **format)
 	else if (**format == 'd' || **format == 'i')
 		return (add_di(&str, va_arg(arglist, int)));
 	/*else if (**format == 'p')
-		return (add_p(&str, va_arg(arglist, unsigned int)));
+		return (add_p(&str, va_arg(arglist, unsigned int)));*/
 	else if (**format == 'u')
-		return (add_u(&str, va_arg(arglist, unsigned int)));*/
+		return (add_u(&str, va_arg(arglist, unsigned int)));
 	else if (**format == 'x' || **format == 'X')
 		return (add_x(&str, va_arg(arglist, unsigned int), format));
 	return (0);
