@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 00:18:46 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/27 00:26:33 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -468,6 +468,7 @@ int				ft_printf(const char *format, ...)
 	va_list		arglist;
 	int			i;
 	int			add;
+	
 	i = 0;
 	add = 0;
 	if (format == NULL)
@@ -486,7 +487,5 @@ int				ft_printf(const char *format, ...)
 			i = i + write(1, format++, 1);
 	}
 	va_end(arglist);
-	// printf("\n%d\n", i);
-	// printf("%d\n", add);
 	return (i + add);
 }
