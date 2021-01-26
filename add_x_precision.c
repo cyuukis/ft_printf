@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_x_precision.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/26 19:18:32 by cyuuki            #+#    #+#             */
+/*   Updated: 2021/01/26 19:19:17 by cyuuki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static	int		add_x_write(int a, t_str *str, unsigned int num, const char **format, int string)
@@ -60,34 +72,8 @@ int		add_x_precision(t_str *str, unsigned int num, const char **format)
 			str->width = 0;
 		if (str->flags_s == 1 || str->flags_z == 2)
 			add += add_x_write(a, str, num, format, string);
-		/*if (str->flags_s == 1 || str->flags_z == 2)
-		{
-			if (str->flags_z == 2 && str->flags_s == -1)
-			{
-				add += add_width_x('0', a);
-				//add += add_x_hex(str, num, format);
-				(string != 0 ? add += add_x_hex(str, num, format) : 0);
-				add += add_width_x(' ', str->width);
-				return (add);
-			}
-			else
-			{
-				add += add_width_x(' ', str->width);
-				add += add_width_x('0', a);
-				//add += add_x_hex(str, num, format);
-				(string != 0 ? add += add_x_hex(str, num, format) : 0);
-				return (add);
-			}
-		}*/
 		else if (str->flags_s == -1)
 			add += add_flag_s(a, str, num, format, string);
-	//else if (str->flags_s == -1)
-	//{
-	//	add += add_width_x('0', a);
-	//	//add += add_x_hex(str, num, format);
-	//	(string != 0 ? add += add_x_hex(str, num, format) : 0);
-	//	add += add_width_x(' ', str->width);
-	//}
 	}
 	return (add);
 }

@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/26 00:22:22 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/26 20:37:04 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,17 @@ static	int		add_di(t_str *str, int di)
 		minus = 1;
 	else
 		minus = 0;
-	if (str->precision > -1 )
+	if (di == 0 && str->fl_precision == 1 && str->precision == 0)
 	{
-		/*printf("\n%d\n", str->precision);
-		printf("%d\n", str->width);*/
+		add += add_width_x(' ', str->width);
+		res = ft_strdup("");
+		return (add);
+	}
+	if (str->precision > -1)
+	{
 		if (str->precision > string)
 			a = str->precision - string;
-		else if (str->precision == string)
+		else if (str->precision == 1 && string == 1)
 			a = 1;
 		else
 			str->precision = 0;
@@ -91,13 +95,26 @@ static	int		add_di(t_str *str, int di)
 			str->width = str->width - string - a;
 		else
 			str->width = 0;
-		/*printf("\n%d\n", str->precision);
-		printf("%d\n", str->width);
-		printf("%d\n",a);
-		printf("%d\n", string);*/
+		if (minus == 1 && str->precision > 0)
+		{
+			a++;
+			str->width--;
+		}
 		if (str->flags_z == 2 || str->flags_s == 1)
 		{
-			if (str->flags_z == 2 && str->fl_precision != 1)
+			if (str->flags_z == 2 && str->flags_s == -1)
+			{
+				if (minus == 1)
+				{
+					add += write(1, "-", 1);
+					res++;
+				}
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+				add += add_width_di(' ', str->width);
+				return (add);
+			}
+			else if ((str->flags_z == 2 || str->flags_s == -1) && str->fl_precision != 1)
 			{
 				if (minus == 1)
 				{
@@ -118,7 +135,6 @@ static	int		add_di(t_str *str, int di)
 				}
 				add += add_width_di('0', a);
 				add += write(1, res, ft_strlen(res));
-				
 			}
 			else
 			{
@@ -158,36 +174,107 @@ static	int		add_di(t_str *str, int di)
 		if (string > 0)
 			add += add_width_di(' ', string);
 	}
-	/*else if (di < 0)
-	{
-		add += write(1, res, ft_strlen(res));
-	}
-	else
-		add += write(1, res, ft_strlen(res));*/
 	return (add);
 }
 
 static	int		add_u(t_str *str, unsigned int num)
 {
-	int add;
-	int string;
-	char *res;
+	int		add;
+	unsigned	int		string;
+	char	*res;
+	int		a;
 
 	add = 0;
+	a = 0;
+	string = 0;
 	res = ft_itoa(num);
 	string += ft_strlen(res);
+	if (num == 0 && str->fl_precision == 1 && str->precision == 0)
+	{
+		add += add_width_x(' ', str->width);
+		res = ft_strdup("");
+		return (add);
+	}
 	if (str->precision > -1)
 	{
-		add += 
+		if (str->precision > string)
+			a = str->precision - string;
+		else if (str->precision == 1 && string == 1)
+			a = 1;
+		else
+			str->precision = 0;
+		if (str->width > a + string)
+			str->width = str->width - string - a;
+		else
+			str->width = 0;
+		if (str->flags_z == 2 || str->flags_s == 1)
+		{
+			if (str->flags_z == 2 && str->flags_s == -1)
+			{
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+				add += add_width_di(' ', str->width);
+				return (add);
+			}
+			else if ((str->flags_z == 2 || str->flags_s == -1) && str->fl_precision != 1)
+			{
+				add += add_width_di('0', str->width);
+				add += write(1, res, ft_strlen(res));
+				add += add_width_di(' ', str->precision);
+			}
+			else if (str->flags_z == 2 && str->fl_precision == 1)
+			{
+				add += add_width_di(' ', str->width);
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+			}
+			else
+			{
+				add += add_width_di(' ', str->width);
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+			}
+		}
+		else if (str->flags_s == -1)
+		{
+			add += add_width_di('0', a);
+			add += write(1, res, ft_strlen(res));
+			add += add_width_di(' ', str->width);
+		}
 	}
 	else if (str->fl_precision == 1 || str->flags_s == -1 || str->flags_z == 2)
 	{
-
+		if (str->fl_precision == 1)
+		{
+			if (str->width > string)
+				string = str->width - string;
+			if (string > 0)
+				add += add_width_di('0', string);
+			add += write(1, res, ft_strlen(res));
+		}
+		else if (str->flags_s == -1)
+		{
+			add += write(1, res, ft_strlen(res));
+			string = str->width - string;
+			if (string > 0)
+				add += add_width_di(' ', string);
+		}
+		else if (str->flags_z == 2 && str->fl_precision != 1)
+		{
+			string = str->width - string;
+			if (string > 0)
+				add += add_width_di('0', string);
+			add += write(1, res, ft_strlen(res));
+		}
 	}
 	else if (str->width > 0)
 	{
-
+		string = str->width - string;
+		add += write(1, res, ft_strlen(res));
+		if (string > 0)
+			add += add_width_di(' ', string);
 	}
+	return (add);
 }
 
 static	void	my_parses_flag(t_str *str, const char **format)
