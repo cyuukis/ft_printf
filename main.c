@@ -116,7 +116,10 @@ int main(void)
 	ft_printf("8f |%-6.4d|\n", 1);
 	printf	 ("9p |%5.6d|\n", 10);
 	ft_printf("9f |%5.6d|\n", 10);*/
-	printf("|%u|\n", 4294967295u);
-	ft_printf("|%u|\n", 4294967295u);
+	// printf("|%05.5s|\n", "a");
+	// ft_printf("|%05.5s|\n", "a");
+	int a;
+	printf("|%%-*.3s LYDI == |%-*.3s||\n", 5, "LYDI");
+	ft_printf("|%%-*.3s LYDI == |%-*.3s||\n", 5, "LYDI");
 	return (0);
 }

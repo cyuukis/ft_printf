@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:41:53 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/25 23:27:12 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/26 21:42:29 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ size_t		ft_strlen(const char *str);
 char		*ft_strchr(const char *str, int ch);
 char		*ft_strdup(const char *str);
 int			ft_atoi(const char *str);
-char		*ft_itoa(int n);
+char		*ft_itoa(long n);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		*ft_memset(void *dest, int c, size_t n);

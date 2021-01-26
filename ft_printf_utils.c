@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 17:45:50 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/26 20:12:30 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/26 21:45:02 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		ft_atoi(const char *str)
 	return (z * n);
 }
 
-static	int		ft_check(int n)
+static	int		ft_check(long n)
 {
 	int	i;
 
@@ -105,7 +105,7 @@ static	int		ft_check(int n)
 	return (i);
 }
 
-static	int		ft_equals(int c)
+static	int		ft_equals(long c)
 {
 	if (c > 0)
 		return (1);
@@ -141,7 +141,7 @@ static void		*ft_calloc(size_t number, size_t size)
 	return (s);
 }
 
-char			*ft_itoa(int n)
+char			*ft_itoa(long n)
 {
 	size_t				l;
 	char				*str;
