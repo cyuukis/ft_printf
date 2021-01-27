@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_x.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/27 22:22:50 by cyuuki            #+#    #+#             */
+/*   Updated: 2021/01/27 22:31:43 by cyuuki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
-//add_x_registr
+
 int		add_x_hex(t_str *str, unsigned int num, const char **format)
 {
 	long	a;
@@ -40,10 +52,6 @@ int		add_x_str(unsigned int num)
 	return (string);
 }
 
-//add_x_write
-//add_flag_s
-//add_x_precision
-
 static	int		add_x_null(t_str *str, unsigned int num, const char **format)
 {
 	int add;
@@ -61,15 +69,11 @@ static	int		add_x_null(t_str *str, unsigned int num, const char **format)
 	return (add);
 }
 
-int		add_x(t_str *str, unsigned int num, const char **format)
+int				add_x(t_str *str, unsigned int num, const char **format)
 {
 	int	add;
-	//int string_a;
 
-	//string_a = 0;
 	add = 0;
-	//if (num == 0 && str->precision == 0)
-		//string_a = 0;
 	if (str->flags_z == 2 && str->fl_precision == 0)
 		add += add_x_null(str, num, format);
 	else

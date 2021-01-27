@@ -6,13 +6,13 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 21:44:20 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/27 22:31:00 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static	int		add_width_di(char c, int width)
+int		add_width_di(char c, int width)
 {
 	int add;
 
@@ -313,6 +313,30 @@ static	int		add_u_fl(t_str *str, char *res, int string)
 	}
 	return (add);
 }
+
+static	int		add_u_one(t_str *str, int string, char *res)
+{
+	int add;
+
+	add = 0;
+	if (str->flags_z == 2 && str->fl_precision == 0 && str->fl_width != -1)
+	{
+		string = str->width - string;
+		add += add_width_di('0', string);
+		add += write(1, res, ft_strlen(res));
+	}
+	else if (str->fl_width == -1)
+	{
+		string = str->width - string;
+			add += write(1, res, ft_strlen(res));
+		if (string > 0 && str->fl_precision == 0)
+			add += add_width_di(' ', string);
+		if (str->precision > 0)
+			add += add_width_di(' ', string);
+	}
+	return (add);
+}
+
 static	int		add_u(t_str *str, unsigned int num)
 {
 	int		add;
@@ -333,82 +357,28 @@ static	int		add_u(t_str *str, unsigned int num)
 	}
 	if (str->precision > -1)
 		add += add_u_fl(str, res, string);
-	// if (str->precision > -1)
-	// {
-	// 	if (str->precision > string)
-	// 		a = str->precision - string;
-	// 	else if (str->precision == 1 && string == 1)
-	// 		a = 1;
-	// 	else
-	// 		str->precision = 0;
-	// 	if (str->width > a + string)
-	// 		str->width = str->width - string - a;
-	// 	else
-	// 		str->width = 0;
-	// 	if (str->flags_z == 2 || str->flags_s == 1)
-	// 	{
-	// 		if (str->flags_z == 2 && str->flags_s == -1)
-	// 		{
-	// 			add += add_width_di('0', a);
-	// 			add += write(1, res, ft_strlen(res));
-	// 			add += add_width_di(' ', str->width);
-	// 			return (add);
-	// 		}
-	// 		else if ((str->flags_z == 2 || str->flags_s == -1) && str->fl_precision != 1)
-	// 		{
-	// 			if (str->fl_width != -1)
-	// 				add += add_width_di('0', str->width);
-	// 			add += write(1, res, ft_strlen(res));
-	// 			add += add_width_di(' ', str->precision);
-	// 			if (str->fl_width == -1)
-	// 				add += add_width_di(' ', str->width);
-	// 		}
-	// 		else if (str->flags_z == 2 && str->fl_precision == 1)
-	// 		{
-	// 			add += add_width_di(' ', str->width);
-	// 			add += add_width_di('0', a);
-	// 			add += write(1, res, ft_strlen(res));
-	// 		}
-	// 		else
-	// 		{
-	// 			if (str->fl_width != -1)
-	// 				add += add_width_di(' ', str->width);
-	// 			if (str->fl_width != -1)
-	// 				add += add_width_di('0', a);
-	// 			add += write(1, res, ft_strlen(res));
-	// 			if (str->fl_width == -1)
-	// 				add += add_width_di(' ', str->width);
-	// 		}
-	// 	}
-	// 	else if (str->flags_s == -1)
-	// 	{
-	// 		add += add_width_di('0', a);
-	// 		add += write(1, res, ft_strlen(res));
-	// 		add += add_width_di(' ', str->width);
-	// 	}
-	// }
 	else if (str->fl_precision >= 0 || str->flags_s == -1 || str->flags_z == 2)
 	{
 		/////////////////////////////
-		if (str->flags_z == 2)
+	if (str->flags_z == 2)
 	{
-		if (str->flags_z == 2 && str->fl_precision == 0 && str->fl_width != -1)
-		{
-			string = str->width - string;
-			add += add_width_di('0', string);
-			add += write(1, res, ft_strlen(res));
-
-		}
-		else if (str->fl_width == -1)
-		{
-			string = str->width - string;
-				add += write(1, res, ft_strlen(res));
-			if (string > 0 && str->fl_precision == 0)
-				add += add_width_di(' ', string);
-			if (str->precision > 0)
-				add += add_width_di(' ', string);
-		}
-		return (add);
+		return (add += add_u_one(str, string, res));
+		// if (str->flags_z == 2 && str->fl_precision == 0 && str->fl_width != -1)
+		// {
+		// 	string = str->width - string;
+		// 	add += add_width_di('0', string);
+		// 	add += write(1, res, ft_strlen(res));
+		// }
+		// else if (str->fl_width == -1)
+		// {
+		// 	string = str->width - string;
+		// 		add += write(1, res, ft_strlen(res));
+		// 	if (string > 0 && str->fl_precision == 0)
+		// 		add += add_width_di(' ', string);
+		// 	if (str->precision > 0)
+		// 		add += add_width_di(' ', string);
+		// }
+		// return (add);
 	}
 	else if (str->flags_s == 1)
 	{
@@ -468,118 +438,6 @@ static	int		add_u(t_str *str, unsigned int num)
 	return (add);
 }
 
-int		add_p_registr(unsigned long a)
-{
-	int		add;
-	char	hex;
-
-	add = 0;
-	if (a >= 10 && a <= 15)
-	{
-		hex = (char)a + 87;
-		add += write(1, &hex, 1);
-	}
-	else if (a <= 9)
-	{
-		hex = (char)a + 48;
-		add += write(1, &hex, 1);
-	}
-	return (add);
-}
-
-int		add_p_hex(t_str *str, unsigned long num)
-{
-	long	a;
-	int		add;
-
-	add = 0;
-	if (num >= 16)
-		add += add_p_hex(str, num / 16);
-	a = num % 16;
-	add += add_p_registr(a);
-	return (add);
-}
-
-int		add_p_str(unsigned long num)
-{
-	int string;
-
-	string = 0;
-	while (num >= 16)
-	{
-		num /= 16;
-		string++;
-	}
-	string++;
-	return (string);
-}
-
-static	int		add_p(t_str *str, unsigned long pointer)
-{
-	int add;
-	//char *res;
-	int string;
-
-	string = 0;
-	string += add_p_str(pointer);
-	// printf("poiter = %lu\n", pointer);
-	add = 0;
-	if (pointer == 0 && str->fl_precision == 1 && str->precision == 0)
-	{
-		if (str->width > 0 && str->flags_s == -1)
-		{
-			add += write(1, "0x", 2);
-			add += add_width_di(' ', str->width - 2);
-
-		}
-		else
-		{
-			add += add_width_di(' ', str->width - 2);
-			add += write(1, "0x", 2);
-		}
-		return (add);
-	}
-	else if (str->flags_s == -1)
-	{
-		str->width = str->width - (string + 2);
-		add += write(1, "0x", 2);
-		add += add_p_hex(str, pointer);
-		add += add_width_di(' ', str->width);
-	}
-	else if (str->flags_z == 2)
-	{
-		str->width = str->width - (string + 2);
-		add += write(1, "0x", 2);
-		add += add_p_hex(str, pointer);
-		add += add_width_di('0', str->width);
-	}
-	else if (str->flags_s == 1)
-	{
-		if (str->precision > string)
-			str->precision = str->precision - string;
-		else
-			str->precision = 0;
-		str->width = str->width - (string + 2);
-		if (str->fl_width == -1)
-		{
-			add += write(1, "0x", 2);
-			add += add_width_di('0', str->precision);
-			add += add_p_hex(str, pointer);
-			add += add_width_di(' ', str->width);
-		}
-		else
-		{
-			add += add_width_di(' ', str->width);
-			add += write(1, "0x", 2);
-			add += add_width_di('0', str->precision);
-			add += add_p_hex(str, pointer);
-		}
-	}
-
-
-	return (add);
-}
-
 static	int		my_parses_flag(t_str *str, const char **format)
 {
 	int add;
@@ -595,91 +453,75 @@ static	int		my_parses_flag(t_str *str, const char **format)
 	}
 	if (str->flags_s != -1 && str->flags_z != 2)
 		str->flags_s = 1;
-	// while ((**format >= '\t' && **format <= '\r') || **format == ' ')
-	// {
-	// 	add += write(1, " ", 1);
-	// 	(*format)++;
-	// }
+	while ((**format >= '\t' && **format <= '\r') || **format == ' ')
+	{
+		add += write(1, " ", 1);
+		(*format)++;
+	}
 	return (add);
 }
 
-static	void	my_parses_width(t_str *str, const char **format, va_list arglist)
+static	void	my_parses_width(t_str *s, const char **form, va_list arg)
 {
-	if (**format == '*')
+	if (**form == '*')
 	{
-		str->width = va_arg(arglist, int);
-		(*format)++;
+		s->width = va_arg(arg, int);
+		(*form)++;
 	}
-	if (**format >= '0' && **format <= '9')
+	if (**form >= '0' && **form <= '9')
 	{
-		str->width = ft_atoi(*format);
-		(*format)++;
+		s->width = ft_atoi(*form);
+		(*form)++;
 	}
-	if (str->width < 0)
+	if (s->width < 0)
 	{
-		str->width *= -1;
-		str->fl_width = -1;
+		s->width *= -1;
+		s->fl_width = -1;
 	}
-	while (**format >= '0' && **format <= '9')
-		(*format)++;
+	while (**form >= '0' && **form <= '9')
+		(*form)++;
 }
 
-static	void	my_parses_precision(t_str *str, const char **format, va_list arglist)
+static	void	my_parses_precision(t_str *s, const char **form, va_list arg)
 {
-	if (**format == '.')
+	if (**form == '.')
 	{
-		str->fl_precision = 1;
-		(*format)++;
-		if (**format == '*')
+		s->fl_precision = 1;
+		(*form)++;
+		if (**form == '*')
 		{
-			(*format)++;
-			str->precision = va_arg(arglist, int);
+			(*form)++;
+			s->precision = va_arg(arg, int);
 		}
-		if (**format >= '0' && **format <= '9')
+		if (**form >= '0' && **form <= '9')
 		{
-			str->precision = ft_atoi(*format);
-			(*format)++;
+			s->precision = ft_atoi(*form);
+			(*form)++;
 		}
-		if (str->precision < 0)
-			str->fl_precision = 0;
-		//else
-		//	str->precision = 0;
-		while (**format >= '0' && **format <= '9')
-			(*format)++;
+		if (s->precision < 0)
+			s->fl_precision = 0;
+		while (**form >= '0' && **form <= '9')
+			(*form)++;
 	}
 	else
 	{
-		str->fl_precision = 0;
-		str->precision = 0;
+		s->fl_precision = 0;
+		s->precision = 0;
 	}
 }
 
-/*static	int		add_space(t_str *str, const char **format)
-{
-	int add;
-
-	add = 0;
-	add += write(1, format, 1);
-	(*format)++;
-	return (add);
-}*/
-
 static	int		my_parses(va_list arglist, const char **format)
 {
-	t_str str;
-	int add;
+	t_str	str;
+	int		add;
 
 	add = 0;
 	if (**format == '\0')
 		return (0);
 	ft_memset(&str, 0, sizeof(str));
-	///////////////////////////////////////////////// флаг
 	add += my_parses_flag(&str, format);
-	///////////////////////////////////////////////// ширина
 	my_parses_width(&str, format, arglist);
-	///////////////////////////////////////////////// точность
 	my_parses_precision(&str, format, arglist);
-	///////////////////////////////////////////////// типы
 	if (**format == 'c')
 		return (add + add_c(&str, va_arg(arglist, int)));
 	else if (**format == '%')
