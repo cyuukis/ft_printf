@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:38:19 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 19:31:49 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/27 21:44:20 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,9 +281,18 @@ static	int		add_u_fl(t_str *str, char *res, int string)
 		}
 		else if (str->flags_z == 2 && str->fl_precision == 1)
 		{
+			if (str->fl_width == -1)
+			{
+				add += add_width_di('0', a);
+				add += write(1, res, ft_strlen(res));
+				add += add_width_di(' ', str->width);
+			}
+			else
+			{
 			add += add_width_di(' ', str->width);
 			add += add_width_di('0', a);
 			add += write(1, res, ft_strlen(res));
+			}
 		}
 		else
 		{
@@ -517,10 +526,17 @@ static	int		add_p(t_str *str, unsigned long pointer)
 	add = 0;
 	if (pointer == 0 && str->fl_precision == 1 && str->precision == 0)
 	{
-		if (str->width > 0)
+		if (str->width > 0 && str->flags_s == -1)
+		{
+			add += write(1, "0x", 2);
 			add += add_width_di(' ', str->width - 2);
-		add += write(1, "0x", 2);
-		//add += write(1, "", 0);
+
+		}
+		else
+		{
+			add += add_width_di(' ', str->width - 2);
+			add += write(1, "0x", 2);
+		}
 		return (add);
 	}
 	else if (str->flags_s == -1)
@@ -544,10 +560,20 @@ static	int		add_p(t_str *str, unsigned long pointer)
 		else
 			str->precision = 0;
 		str->width = str->width - (string + 2);
-		add += add_width_di(' ', str->width);
-		add += write(1, "0x", 2);
-		add += add_width_di('0', str->precision);
-		add += add_p_hex(str, pointer);
+		if (str->fl_width == -1)
+		{
+			add += write(1, "0x", 2);
+			add += add_width_di('0', str->precision);
+			add += add_p_hex(str, pointer);
+			add += add_width_di(' ', str->width);
+		}
+		else
+		{
+			add += add_width_di(' ', str->width);
+			add += write(1, "0x", 2);
+			add += add_width_di('0', str->precision);
+			add += add_p_hex(str, pointer);
+		}
 	}
 
 
@@ -569,11 +595,11 @@ static	int		my_parses_flag(t_str *str, const char **format)
 	}
 	if (str->flags_s != -1 && str->flags_z != 2)
 		str->flags_s = 1;
-	while ((**format >= '\t' && **format <= '\r') || **format == ' ')
-	{
-		add += write(1, " ", 1);
-		(*format)++;
-	}
+	// while ((**format >= '\t' && **format <= '\r') || **format == ' ')
+	// {
+	// 	add += write(1, " ", 1);
+	// 	(*format)++;
+	// }
 	return (add);
 }
 
