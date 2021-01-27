@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 22:13:44 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 22:20:17 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/27 23:54:50 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static	int		add_point_two(t_str *str, int string, unsigned long pointer)
 	return (add);
 }
 
-int		add_p(t_str *str, unsigned long pointer)
+int				add_p(t_str *str, unsigned long pointer)
 {
 	int add;
 	int string;

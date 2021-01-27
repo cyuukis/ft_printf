@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:41:53 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 22:34:38 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 00:14:15 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,9 @@ int			add_x_hex(t_str *str, unsigned int num, const char **format);
 int			add_p_registr(unsigned long a);
 int			add_p(t_str *str, unsigned long pointer);
 int			add_width_di(char c, int width);
+int			add_u(t_str *str, unsigned int num);
+int			add_u_fl(t_str *str, char *res, int string);
+int			add_u_five(t_str *str, char *res, unsigned int n);
+int			add_u_six(t_str *str, int string, char *res);
+int			fl_u_fi(t_str *str, char *res, int a);
 #endif

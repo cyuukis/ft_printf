@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 22:22:50 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 22:31:43 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 01:58:43 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,16 @@ static	int		add_x_null(t_str *str, unsigned int num, const char **format)
 		str->width = str->width - string;
 	else
 		str->width = 0;
-	add += add_width_x('0', str->width);
-	add += add_x_hex(str, num, format);
+	if (str->fl_width == -1)
+	{
+		add += add_x_hex(str, num, format);
+		add += add_width_x(' ', str->width);
+	}
+	if (str->fl_width != -1)
+	{
+		add += add_width_x('0', str->width);
+		add += add_x_hex(str, num, format);
+	}
 	return (add);
 }
 
