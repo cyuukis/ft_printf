@@ -118,8 +118,43 @@ int main(void)
 	ft_printf("9f |%5.6d|\n", 10);*/
 	// printf("|%05.5s|\n", "a");
 	// ft_printf("|%05.5s|\n", "a");
-	int a;
-	printf("|%%-*.3s LYDI == |%-*.3s||\n", 5, "LYDI");
-	ft_printf("|%%-*.3s LYDI == |%-*.3s||\n", 5, "LYDI");
+	//int a;
+	//int b;
+	// printf("|%%-*.3s LYDI == |%-*.3s||\n", 5, "LYDI");
+	// ft_printf("|%%-*.3s LYDI == |%-*.3s||\n", 5, "LYDI");
+	// a = printf("|%% *.5i 42 == |% *.5i||\n", 4, 42);
+	// //a = printf("|%-*.10x|\n", -13, 12345);
+	// printf("p %d\n", a);
+	// b = ft_printf("|%% *.5i 42 == |% *.5i||\n", 4, 42);
+	// //b = ft_printf("|%-*.10x|\n", -13, 12345);
+	// printf("f %d", b);
+	 //printf("|%-*.*u|\n", 2, -1, 8);
+	 //ft_printf("|%-*.*u|", 2, -1, 8);
+	// printf("|%*c|\n", 12, '0');
+
+	// ft_printf("|%*c|\n", 12, '0');
+int		a = 4;
+	int		b = 0;
+	char	c = 'a';
+	int		d = 2147483647;
+	int		e = -2147483648;
+	int		f = 42;
+	int		g = 25;
+	int		h = 4200;
+	int		i = 8;
+	int		j = -12;
+	int		k = 123456789;
+	int		l = 0;
+	int		m = -12345678;
+	char	*n = "abcdefghijklmnop";
+	char	*o = "-a";
+	char	*p = "-12";
+	char	*q = "0";
+	char	*r = "%%";
+	char	*s = "-2147483648";
+	char	*t = "0x12345678";
+	char	*u = "-0";
+	printf("%c,  %-c, %1c, %*c,  %-*c,  %*c, %-*c\n", c, n[0], o[0], a, p[0], a, q[0], a, r[0], a, c);
+	ft_printf("%c,  %-c, %1c, %*c,  %-*c,  %*c, %-*c\n", c, n[0], o[0], a, p[0], a, q[0], a, r[0], a, c);
 	return (0);
 }

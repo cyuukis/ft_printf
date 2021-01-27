@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 19:17:38 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/26 19:17:56 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/27 20:08:58 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ int			add_c(t_str *str, char c)
 		}
 		else if (str->flags_s == 1)
 		{
-			i = add_width_c(' ', str->width);
+			if (str->fl_width != -1)
+				i = add_width_c(' ', str->width);
 			add += write(1, &c, 1);
+			if (str->fl_width == -1)
+				i = add_width_c(' ', str->width);
 			return (add + i);
 		}
 	}

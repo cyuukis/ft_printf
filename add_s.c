@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 19:18:13 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/26 19:18:14 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/27 13:11:16 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 static	char	*add_s_str(t_str *str, char *c)
 {
-
 	if (str->fl_precision == 1)
 	{
 		if (str->precision > -1 && c)
 			c = ft_substr(c, 0, str->precision);
 	}
-	else if (str->precision == -1 && c)
+	if (str->fl_width == -1)
 	{
-		c = ft_strdup(c);
+		write(1, c, ft_strlen(c));
 	}
 	return (c);
 }
@@ -53,19 +52,37 @@ int			add_s(t_str *str, char *c)
 	add = 0;
 	if (str->flags_s == -1)
 	{
-		add += write(1, string, ft_strlen(string));
+		if (str->fl_width != -1)
+			add += write(1, string, ft_strlen(string));
 		add = add + add_width_s(' ', str->width - i);
+		if (str->fl_width == -1)
+			return (add + i);
 	}
 	else if (str->flags_s == 1)
 	{
-
+		add += add_width_s(' ', str->width - i);
+		if (str->fl_width != -1)
+			add += write(1, string, ft_strlen(string));
+		else
+			return (add + i);
+	}
+	/*else if (str->flags_s == 1)
+	{
 		add += add_width_s(' ', str->width - i);
 		add += write(1, string, ft_strlen(string));
-	}
+	}*/
 	else if (str->flags_z == 2)
 	{
-		add += add_width_s('0', str->width - i);
-		add += write(1, string, ft_strlen(string));
+		if (str->fl_width != -1)
+		{
+			add += add_width_s('0', str->width - i);
+			add += write(1, string, ft_strlen(string));
+		}
+		else
+		{
+			add += add_width_s(' ', str->width - i);
+			return (add + i);
+		}
 	}
 	else
 		add += write(1, string, ft_strlen(string));
