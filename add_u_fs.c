@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 23:56:14 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/28 15:32:53 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 19:55:46 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 int		add_u_five(t_str *str, char *res, unsigned int n)
 {
-	int add;
+	int		add;
+	char	*tmp;
 
 	add = 0;
+	tmp = res;
 	if (n == 0 && str->fl_precision == 1 && str->precision == 0)
 	{
+		if (tmp)
+			free(tmp);
 		add += add_width_x(' ', str->width);
 		res = ft_strdup("");
 	}
-	free(res);
+	if (res)
+		free(res);
 	return (add);
 }
 

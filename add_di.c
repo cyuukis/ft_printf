@@ -6,13 +6,13 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 15:21:47 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/28 15:21:48 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 19:50:12 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		add_di_one(t_str *str, int minus, char *res, int string)
+int				add_di_one(t_str *str, int minus, char *res, int string)
 {
 	int add;
 
@@ -36,27 +36,37 @@ int		add_di_one(t_str *str, int minus, char *res, int string)
 	return (add);
 }
 
-int		add_di(t_str *str, int di)
+static	int		add_di_minus(int minus, int di)
+{
+	if (di < 0)
+		minus = 1;
+	else
+		minus = 0;
+	return (minus);
+}
+
+int				add_di(t_str *str, int di)
 {
 	char	*res;
 	int		minus;
 	int		add;
 	int		string;
+	char	*tmp;
 
 	add = 0;
+	minus = 0;
 	res = ft_itoa(di);
+	tmp = res;
 	string = ft_strlen(res);
-	if (di < 0)
-	{
+	minus = add_di_minus(minus, di);
+	if (minus == 1)
 		string -= 1;
-		minus = 1;
-	}
-	else
-		minus = 0;
 	if (di == 0 && str->fl_precision == 1 && str->precision == 0)
 	{
+		free(tmp);
 		add += add_width_x(' ', str->width);
 		res = ft_strdup("");
+		free(res);
 		return (add);
 	}
 	add += add_di_one(str, minus, res, string);

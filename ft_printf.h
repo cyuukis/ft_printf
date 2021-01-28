@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 16:41:53 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/28 15:42:00 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 20:05:20 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 
 typedef	struct	s_str
 {
