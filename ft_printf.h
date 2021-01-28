@@ -31,12 +31,12 @@ typedef	struct	s_str
 
 int			ft_printf(const char *string, ...);
 size_t		ft_strlen(const char *str);
-char		*ft_strchr(const char *str, int ch);
+//char		*ft_strchr(const char *str, int ch);
 char		*ft_strdup(const char *str);
 int			ft_atoi(const char *str);
 char		*ft_itoa(long n);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
-size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+//size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 void		*ft_memset(void *dest, int c, size_t n);
 int			add_c(t_str *str, char c);
 int			add_s(t_str *str, char *c);
@@ -55,4 +55,10 @@ int			add_u_fl(t_str *str, char *res, int string);
 int			add_u_five(t_str *str, char *res, unsigned int n);
 int			add_u_six(t_str *str, int string, char *res);
 int			fl_u_fi(t_str *str, char *res, int a);
+int			add_di_fl(t_str *str, int minus, char *res, int string);
+int			add_di(t_str *str, int di);
+int			space_di_fi(t_str *str, int string, char *res, int minus);
+int			space_di_six(t_str *str, int string, char *res);
+int			add_di_one(t_str *str, int minus, char *res, int string);
+int			add_di_space(t_str *str, int string, char *res, int minus);
 #endif

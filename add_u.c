@@ -110,10 +110,10 @@ int		add_u(t_str *str, unsigned int num)
 	int		add;
 	long	string;
 	char	*res;
-	int		a;
+	//int		a;
 
 	add = 0;
-	a = 0;
+	//a = 0;
 	string = 0;
 	res = ft_itoa(num);
 	string += ft_strlen(res);
