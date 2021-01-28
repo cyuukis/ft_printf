@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 23:53:35 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/28 02:07:26 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 15:23:53 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,13 @@ static	int		add_u_four(t_str *str, int string, char *res)
 	return (add);
 }
 
-int		add_u(t_str *str, unsigned int num)
+int				add_u(t_str *str, unsigned int num)
 {
 	int		add;
 	long	string;
 	char	*res;
-	//int		a;
 
 	add = 0;
-	//a = 0;
 	string = 0;
 	res = ft_itoa(num);
 	string += ft_strlen(res);

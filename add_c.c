@@ -6,13 +6,13 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 19:17:38 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/27 22:26:06 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 15:32:32 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int			add_width_c(char c, int width)
+int				add_width_c(char c, int width)
 {
 	int add;
 
@@ -26,7 +26,30 @@ int			add_width_c(char c, int width)
 	return (add);
 }
 
-int			add_c(t_str *str, char c)
+static	int		add_c_one(t_str *str, char *c, int i)
+{
+	int add;
+
+	add = 0;
+	if (str->flags_s == -1)
+	{
+		add += write(1, c, 1);
+		i = add_width_c(' ', str->width);
+		return (i + add);
+	}
+	else if (str->flags_s == 1)
+	{
+		if (str->fl_width != -1)
+			i = add_width_c(' ', str->width);
+		add += write(1, c, 1);
+		if (str->fl_width == -1)
+			i = add_width_c(' ', str->width);
+		return (add + i);
+	}
+	return (add);
+}
+
+int				add_c(t_str *str, char c)
 {
 	int i;
 	int add;
@@ -34,23 +57,7 @@ int			add_c(t_str *str, char c)
 	add = 0;
 	i = 0;
 	if ((str->flags_s == -1 || str->flags_s == 1) && str->width >= 0)
-	{
-		if (str->flags_s == -1)
-		{
-			add += write(1, &c, 1);
-			i = add_width_c(' ', str->width);
-			return (i + add);
-		}
-		else if (str->flags_s == 1)
-		{
-			if (str->fl_width != -1)
-				i = add_width_c(' ', str->width);
-			add += write(1, &c, 1);
-			if (str->fl_width == -1)
-				i = add_width_c(' ', str->width);
-			return (add + i);
-		}
-	}
+		return (add += add_c_one(str, &c, i));
 	if (str->flags_z == 2 && str->width >= 0)
 	{
 		if (str->fl_width == -1)

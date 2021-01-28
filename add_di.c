@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_di.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/28 15:21:47 by cyuuki            #+#    #+#             */
+/*   Updated: 2021/01/28 15:21:48 by cyuuki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int		add_di_one(t_str *str, int minus, char *res, int string)
@@ -24,17 +36,15 @@ int		add_di_one(t_str *str, int minus, char *res, int string)
 	return (add);
 }
 
-int				add_di(t_str *str, int di)
+int		add_di(t_str *str, int di)
 {
 	char	*res;
-	//int		a;
 	int		minus;
 	int		add;
 	int		string;
 
 	add = 0;
 	res = ft_itoa(di);
-	//a = 0;
 	string = ft_strlen(res);
 	if (di < 0)
 	{

@@ -6,13 +6,13 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 22:22:50 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/28 01:58:43 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 15:36:00 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		add_x_hex(t_str *str, unsigned int num, const char **format)
+int				add_x_hex(t_str *str, unsigned int num, const char **format)
 {
 	long	a;
 	int		add;
@@ -25,7 +25,7 @@ int		add_x_hex(t_str *str, unsigned int num, const char **format)
 	return (add);
 }
 
-int		add_width_x(char c, int width)
+int				add_width_x(char c, int width)
 {
 	int add;
 
@@ -38,7 +38,7 @@ int		add_width_x(char c, int width)
 	return (add);
 }
 
-int		add_x_str(unsigned int num)
+int				add_x_str(unsigned int num)
 {
 	int string;
 

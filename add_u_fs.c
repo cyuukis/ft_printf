@@ -6,7 +6,7 @@
 /*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 23:56:14 by cyuuki            #+#    #+#             */
-/*   Updated: 2021/01/28 02:19:03 by cyuuki           ###   ########.fr       */
+/*   Updated: 2021/01/28 15:32:53 by cyuuki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		add_u_five(t_str *str, char *res, unsigned int n)
 		add += add_width_x(' ', str->width);
 		res = ft_strdup("");
 	}
-	//free(res);
+	free(res);
 	return (add);
 }
 

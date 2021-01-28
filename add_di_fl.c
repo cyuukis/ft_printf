@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_di_fl.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cyuuki <cyuuki@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/28 15:34:36 by cyuuki            #+#    #+#             */
+/*   Updated: 2021/01/28 15:35:00 by cyuuki           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static	int		fl_di_o(t_str *str, int minus, char *res, int a)
@@ -56,7 +68,6 @@ static	int		fl_di_th(t_str *str, int minus, char *res, int a)
 	if (str->fl_width == -1)
 		add += add_width_di(' ', str->width);
 	return (add);
-
 }
 
 static	int		fl_di_fo(t_str *str, int minus, char *res, int a)

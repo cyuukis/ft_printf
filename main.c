@@ -19,8 +19,8 @@ int main(void)
 	// ft_printf("|%-3.5c|\n", 'c');
 	// ft_printf("|%-5.3c|\n", 'c');
 	// ft_printf("|%03.5c|\n", 'c');
-	// printf("|%-5c|\n", 'c');
-	// ft_printf("|%-5c|\n", 'c');
+	printf("|%-5c|\n", 'c');
+	ft_printf("|%-5c|\n", 'c');
 	 printf("|%-6s|\n", "Hello");//
 	 ft_printf("|%-6s|\n", "Hello");
 	 printf("|%-.3s|\n", "Hello");
@@ -29,11 +29,11 @@ int main(void)
 	 ft_printf("|%-1.3s|\n", "Hello");
 	 printf("|%0.6s|\n", "Hello");
 	 ft_printf("|%0.6s|\n", "Hello");
-	 ft_printf("|%s|", "Hello");
+	 ft_printf("|%s|\n", "Hello");
 	printf("|%05.3s|\n", "Hello");
 	ft_printf("|%05.3s|\n", "Hello");//
 	printf("|%05c|\n", 'c');
-	ft_printf("|%c|\n", 'c');
+	ft_printf("|%05c|\n", 'c');
 	printf("|%c|\n", 'c');
 	ft_printf("|%c|\n", 'c');
   //////////////////////////////
